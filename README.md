@@ -10,4 +10,4 @@ http://localhost:8086/
 
 mvn package
 
-java -jar target\spu815.jar --server.port=8088
+java -jar target/spu815.jar --server.port=8088
