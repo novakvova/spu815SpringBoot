@@ -12,8 +12,33 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1>Оренда житла</h1>
-                    <p>Сайт для вас</p>
+                    <div th:switch="${users}">
+                        <h2 th:case="null">Список пустий!</h2>
+                        <div th:case="*">
+                            <h2>Користувачі</h2>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Ім'я</th>
+                                    <th>Пошта</th>
+                                    <th>Операції</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td th:text="${user.name}"></td>
+                                    <td th:text="${user.email}"></td>
+
+                                    <td>
+                                        <a th:href="@{/edit/{id}(id=${user.id})}" class="btn btn-warning mr-2">Редагувати</a>
+                                        <a th:href="@{/delete/{id}(id=${user.id})}" class="btn btn-danger">Видалити</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <p><a href="/create">Створити нового користувача</a></p>
+                    </div>
                 </div>
             </div>
         </div>
