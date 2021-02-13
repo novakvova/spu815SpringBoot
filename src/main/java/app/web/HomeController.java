@@ -32,7 +32,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        seederDb.SeedUser();
+        seederDb.SeedAllTabels();
         List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
         return "index";
