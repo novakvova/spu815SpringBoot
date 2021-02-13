@@ -37,6 +37,7 @@ public class HomeController {
     public String index(FindUserDTO find, Model model) {
         seederDb.SeedAllTabels();
         Stream<User> stream = userRepository.findAll().stream();
+        System.out.println("-----Begin Query-----");
         if(find.getName()!=null) {
             stream = stream.filter(u->u.getName().startsWith(find.getName()));
         }
@@ -46,6 +47,7 @@ public class HomeController {
         stream = stream.sorted(Comparator.comparing(User::getName));
         //stream = stream.skip(2);
         //stream = stream.limit(2);
+        System.out.println("-----Run Query-----");
         List<User> users = stream.collect(Collectors.toList());//userRepository.findAll();
         model.addAttribute("users", users);
         return "index";
