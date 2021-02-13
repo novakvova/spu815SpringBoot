@@ -1,6 +1,6 @@
 package app.web;
 
-import app.entites.User;
+import app.entities.User;
 import app.repositories.UserRepository;
 import app.seeder.SeederDb;
 import org.springframework.beans.factory.annotation.Autowired;

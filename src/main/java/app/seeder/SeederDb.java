@@ -1,8 +1,8 @@
 package app.seeder;
 
 import app.constants.Roles;
-import app.entites.Role;
-import app.entites.User;
+import app.entities.Role;
+import app.entities.User;
 import app.repositories.RoleRepository;
 import app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

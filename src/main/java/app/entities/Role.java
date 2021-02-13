@@ -1,4 +1,4 @@
-package app.entites;
+package app.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
