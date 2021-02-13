@@ -1,5 +1,6 @@
 package app.web;
 
+import app.dto.FindUserDTO;
 import app.entities.User;
 import app.repositories.UserRepository;
 import app.seeder.SeederDb;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class HomeController {
@@ -31,9 +34,19 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(FindUserDTO find, Model model) {
         seederDb.SeedAllTabels();
-        List<User> users = userRepository.findAll();
+        Stream<User> stream = userRepository.findAll().stream();
+        if(find.getName()!=null) {
+            stream = stream.filter(u->u.getName().startsWith(find.getName()));
+        }
+        if(find.getEmail()!=null) {
+            stream = stream.filter(u->u.getEmail().startsWith(find.getEmail()));
+        }
+        stream = stream.sorted(Comparator.comparing(User::getName));
+        //stream = stream.skip(2);
+        //stream = stream.limit(2);
+        List<User> users = stream.collect(Collectors.toList());//userRepository.findAll();
         model.addAttribute("users", users);
         return "index";
     }
