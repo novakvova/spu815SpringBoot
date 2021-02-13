@@ -2,7 +2,9 @@ package app.web;
 
 import app.entites.User;
 import app.repositories.UserRepository;
+import app.seeder.SeederDb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,14 +18,21 @@ import java.util.*;
 public class HomeController {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final SeederDb seederDb;
 
     @Autowired
-    public HomeController(UserRepository userRepository) {
+    public HomeController(UserRepository userRepository,
+                          PasswordEncoder passwordEncoder,
+                          SeederDb seederDb) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.seederDb=seederDb;
     }
 
     @GetMapping("/")
     public String index(Model model) {
+        seederDb.SeedUser();
         List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
         return "index";
@@ -41,6 +50,7 @@ public class HomeController {
         if(result.hasErrors())
             return "create";
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
         return "redirect:/";
     }
