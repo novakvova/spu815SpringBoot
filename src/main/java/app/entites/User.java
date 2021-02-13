@@ -3,6 +3,8 @@ package app.entites;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="tblUsers")
@@ -24,7 +26,15 @@ public class User {
     @NotBlank(message = "Поле є обов'язковим")
     private String password;
 
+    @ManyToMany(cascade=CascadeType.MERGE)
+    @JoinTable(
+            name="tblUserRoles",
+            joinColumns={@JoinColumn(name="userId", referencedColumnName="id")},
+            inverseJoinColumns={@JoinColumn(name="roleId", referencedColumnName="id")})
+    private List<Role> roles;
+
     public User() {
+        roles = new ArrayList<Role>();
     }
 
     public long getId() {
@@ -57,5 +67,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 }
